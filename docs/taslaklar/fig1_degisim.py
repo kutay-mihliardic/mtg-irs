@@ -45,10 +45,10 @@ cx = np.r_[rng.normal(28.6, 0.9, n // 2), rng.normal(31.0, 0.7, n // 4), rng.nor
 cy = np.r_[rng.normal(37.9, 0.6, n // 2), rng.normal(39.6, 0.5, n // 4), rng.normal(36.6, 0.4, n // 4)]
 
 fig = card(
-    "Son 3 saatte Batı Anadolu'da orta katman nemlendi",
-    "Orta katmana (~500 hPa) duyarlı su buharı sinyalindeki değişim · 18:00 → 21:00 TSİ",
-    "Veri: EUMETSAT MTG-S1 IRS (L1, LAC4) · bulut maskesi: MTG FCI · yıldırım: MTG LI",
-    note="Ölçek: su buharı kanallarında parlaklık sıcaklığı değişimi, ±4 K. Bulutlu alanlarda ölçüm yok.",
+    "Mid-level moisture rose over western Anatolia",
+    "3-hour change in the water-vapour signal sensitive to the mid troposphere (~500 hPa) · 18:00 → 21:00 TRT (UTC+3)",
+    "Data: EUMETSAT MTG-S1 IRS (L1, LAC4) · cloud mask: MTG FCI · lightning: MTG LI",
+    note="Scale: brightness-temperature change in water-vapour channels, ±4 K. No measurement in cloudy areas.",
 )
 proj = ccrs.LambertConformal(central_longitude=18, central_latitude=46, standard_parallels=(35, 55))
 ax = fig.add_axes([0.035, 0.115, 0.69, 0.70], projection=proj)
@@ -76,7 +76,7 @@ ax.add_geometries([rec.geometry], ccrs.PlateCarree(), facecolor="none", edgecolo
 
 ax.scatter(cx, cy, s=9, c=YELLOW, edgecolors=INK, linewidths=0.35, transform=ccrs.PlateCarree(), zorder=5)
 
-ax.annotate("Ege ve Batı Anadolu:\nnem arttı, yıldırımlar\nnemlenen kuşağın kenarında",
+ax.annotate("Aegean & western Anatolia:\nmoistening, with lightning on\nthe edge of the moist band",
             xy=(28.8, 38.4), xycoords=ccrs.PlateCarree()._as_mpl_transform(ax),
             xytext=(0.40, 0.10), textcoords="axes fraction", fontsize=7.5, color=INK, ha="center",
             bbox=dict(boxstyle="round,pad=0.35", fc=SURFACE, ec="#c3c2b7", lw=0.5),
@@ -86,17 +86,17 @@ ax.annotate("Ege ve Batı Anadolu:\nnem arttı, yıldırımlar\nnemlenen kuşağ
 cax = fig.add_axes([0.785, 0.56, 0.17, 0.035])
 sm = plt.cm.ScalarMappable(norm=norm, cmap=DRY_WET)
 cb = fig.colorbar(sm, cax=cax, orientation="horizontal", ticks=[-4, 0, 4])
-cb.ax.set_xticklabels(["kurudu", "değişim\nyok", "nemlendi"], fontsize=7.5, color=INK2)
+cb.ax.set_xticklabels(["drier", "no\nchange", "moister"], fontsize=7.5, color=INK2)
 cb.outline.set_visible(False)
 cb.ax.tick_params(length=0)
-fig.text(0.775, 0.62, "Nem değişimi (3 saat)", fontsize=8.5, fontweight="bold", color=INK)
+fig.text(0.775, 0.62, "Moisture change (3 h)", fontsize=8.5, fontweight="bold", color=INK)
 
-handles = [Patch(facecolor="#c3c2b7", edgecolor="#898781", hatch="/////", label="Bulutlu, görülemiyor"),
+handles = [Patch(facecolor="#c3c2b7", edgecolor="#898781", hatch="/////", label="Cloudy, not visible"),
            Line2D([], [], marker="o", ls="none", mfc=YELLOW, mec=INK, mew=0.4, ms=4.5,
-                  label="Yıldırım, son 1 saat")]
+                  label="Lightning, last 1 h")]
 fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.768, 0.43), frameon=False,
            fontsize=7.5, labelcolor=INK2, handlelength=1.4)
-fig.text(0.775, 0.25, "Türkiye kalın sınırla\nişaretli.", fontsize=7, color=MUTED, va="top")
+fig.text(0.775, 0.25, "Türkiye outlined\nin bold.", fontsize=7, color=MUTED, va="top")
 
 watermark(fig)
 fig.savefig(out, dpi=DPI, facecolor=SURFACE)

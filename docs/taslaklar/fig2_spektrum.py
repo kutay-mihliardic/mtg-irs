@@ -51,13 +51,13 @@ def temp_profile(h, ts):
 
 
 WIN = {}
-cities = [("İstanbul", 13.0, 1.0, BLUE), ("Van", -3.0, 0.15, ORANGE)]
+cities = [("Istanbul", 13.0, 1.0, BLUE), ("Van", -3.0, 0.15, ORANGE)]
 
 fig = card(
-    "Bir piksel, 1953 kanal: atmosferin parmak izi",
-    "Her kanal atmosferin farklı bir yüksekliğini 'duyar'. Grafik, kanalın gördüğü sıcaklığı gösterir (°C) · 21:00 TSİ",
-    "Veri: EUMETSAT MTG-S1 IRS (L1, LAC4) · parlaklık sıcaklığı, ~4 km piksel",
-    note="Spektrumun 1210–1600 cm⁻¹ arası IRS tarafından ölçülmüyor.",
+    "One pixel, 1953 channels: the atmosphere's fingerprint",
+    "Each channel 'hears' a different height in the atmosphere. Plotted: the temperature each channel sees (°C) · 21:00 TRT",
+    "Data: EUMETSAT MTG-S1 IRS (L1, LAC4) · brightness temperature, ~4 km pixel",
+    note="IRS does not measure the 1210–1600 cm⁻¹ range.",
 )
 gs = fig.add_gridspec(1, 2, left=0.075, right=0.965, top=0.66, bottom=0.17,
                       width_ratios=[len(nu_l), len(nu_m)], wspace=0.04)
@@ -65,12 +65,12 @@ axl = fig.add_subplot(gs[0])
 axm = fig.add_subplot(gs[1], sharey=axl)
 
 bands_l = [(680, 760, "CO₂", "15 µm"),
-           (790, 980, "Pencere", "11 µm"),
-           (1000, 1075, "Ozon", "9,6 µm"),
-           (1090, 1210, "Pencere", "8,7 µm")]
-bands_m = [(1600, 1990, "Su buharı", "6,3 µm"),
-           (2030, 2160, "Kısmi pencere", "4,8 µm"),
-           (2175, 2250, "N₂O·CO₂", "4,5 µm")]
+           (790, 980, "Window", "11 µm"),
+           (1000, 1075, "Ozone", "9.6 µm"),
+           (1090, 1210, "Window", "8.7 µm")]
+bands_m = [(1600, 1990, "Water vapour", "6.3 µm"),
+           (2030, 2160, "Partial window", "4.8 µm"),
+           (2175, 2250, "N₂O·CO₂", "4.5 µm")]
 
 for ax, nu, bands in [(axl, nu_l, bands_l), (axm, nu_m, bands_m)]:
     ax.set_facecolor(SURFACE)
@@ -95,26 +95,26 @@ for ax, nu, bands in [(axl, nu_l, bands_l), (axm, nu_m, bands_m)]:
 axm.tick_params(labelleft=False)
 axm.spines["left"].set_visible(False)
 axl.set_ylim(-68, 22)
-axl.set_ylabel("Kanalın gördüğü sıcaklık (°C)", fontsize=8)
-fig.text(0.52, 0.105, "Dalga sayısı (cm⁻¹)", ha="center", fontsize=8, color=INK2)
+axl.set_ylabel("Temperature seen by the channel (°C)", fontsize=8)
+fig.text(0.52, 0.105, "Wavenumber (cm⁻¹)", ha="center", fontsize=8, color=INK2)
 
 axl.set_xticks([700, 800, 900, 1000, 1100])
 axm.set_xticks([1700, 1800, 1900, 2000, 2100, 2200])
 
 # direct labels + legend (2 series)
-axl.text(840, WIN["İstanbul"] + 3, "İstanbul (nemli, ılık)", color=INK, fontsize=7.5, fontweight="bold")
-axl.text(840, WIN["Van"] - 7, "Van (kuru, soğuk)", color=INK, fontsize=7.5, fontweight="bold")
+axl.text(840, WIN["Istanbul"] + 3, "Istanbul (moist, mild)", color=INK, fontsize=7.5, fontweight="bold")
+axl.text(840, WIN["Van"] - 7, "Van (dry, cold)", color=INK, fontsize=7.5, fontweight="bold")
 fig.legend(handles=axl.get_lines()[:2], loc="upper left", bbox_to_anchor=(0.03, 0.83), ncol=2,
            frameon=False, fontsize=7.5, handlelength=1.5, labelcolor=INK2)
 
-axl.annotate("CO₂ bandının merkezi\nstratosferi görür: −56 °C", xy=(684, -55), xytext=(790, -60),
+axl.annotate("CO₂ band centre sees\nthe stratosphere: −56 °C", xy=(684, -55), xytext=(790, -60),
              fontsize=7, color=INK, va="center",
              arrowprops=dict(arrowstyle="-", lw=0.5, color=INK))
-axl.annotate(f"Pencere kanalları yere yakın havayı görür:\nİstanbul ≈ {WIN['İstanbul']:+.0f} °C, Van ≈ {WIN['Van']:+.0f} °C".replace("-", "−"),
+axl.annotate(f"Window channels see the air near the ground:\nIstanbul ≈ {WIN['Istanbul']:+.0f} °C, Van ≈ {WIN['Van']:+.0f} °C".replace("-", "−"),
              xy=(930, WIN["Van"]), xytext=(790, -33), fontsize=7, color=INK, ha="left",
              bbox=dict(boxstyle="round,pad=0.3", fc=SURFACE, ec="#c3c2b7", lw=0.5),
              arrowprops=dict(arrowstyle="-", lw=0.5, color=INK))
-axm.annotate("Nemli havada su buharı kanalları\ndaha yukarıyı, yani daha soğuğu görür",
+axm.annotate("In moist air, water-vapour channels\nsee higher up, i.e. colder air",
              xy=(1840, -40), xytext=(1610, 4), fontsize=7, color=INK,
              bbox=dict(boxstyle="round,pad=0.3", fc=SURFACE, ec="#c3c2b7", lw=0.5),
              arrowprops=dict(arrowstyle="-", lw=0.5, color=INK))

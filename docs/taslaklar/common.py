@@ -49,14 +49,14 @@ def card(title, subtitle, source, note=None):
     fig.text(0.965, 0.03, "mtg-irs", fontsize=7.5, color=MUTED, va="bottom", ha="right",
              fontweight="bold")
     # draft badge (label + color, never color alone)
-    fig.text(0.965, 0.94, "TASLAK · SENTETİK VERİ", fontsize=7.5, fontweight="bold",
+    fig.text(0.965, 0.94, "DRAFT · SYNTHETIC DATA", fontsize=7.5, fontweight="bold",
              color=INK, ha="right", va="top",
              bbox=dict(boxstyle="round,pad=0.45", fc=WARNING, ec="none"))
     return fig
 
 
 def watermark(fig):
-    fig.text(0.45, 0.45, "ÖRNEK VERİ — gerçek ölçüm değil", fontsize=26, color=INK,
+    fig.text(0.45, 0.45, "SAMPLE DATA — not a real measurement", fontsize=26, color=INK,
              alpha=0.07, ha="center", va="center", rotation=12, fontweight="bold",
              zorder=100)
 
